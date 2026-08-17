@@ -1,6 +1,14 @@
+<p align="center">
+  <a href="https://www.skillto.ai">
+    <img src="docs/assets/skillto-logo.png" alt="SkillTo.ai" width="220">
+  </a>
+</p>
+
 # SkillTo.ai Creator Skill
 
 用于构建 SkillTo.ai 创作者图像节点插件的公开 Agent Skill 工具集。
+
+官方网站：[https://www.skillto.ai](https://www.skillto.ai)
 
 English documentation: [README.md](README.md)
 
@@ -31,6 +39,76 @@ skillto-image-node-plugin/SKILL.md
 ```
 
 Codex、Claude Code、OpenClaw 或其他 Agent 运行时可以使用各自支持的本地 skill 目录，也可以直接指向这个目录作为本地能力。
+
+### Codex
+
+把 skill 目录复制到 Codex 的本地 skills 目录：
+
+```powershell
+$skillsDir = Join-Path $env:USERPROFILE ".codex\skills"
+New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
+Copy-Item -Recurse -Force .\skillto-image-node-plugin (Join-Path $skillsDir "skillto-image-node-plugin")
+```
+
+使用时，让 Codex 先加载这个 skill：
+
+```text
+使用 skillto-image-node-plugin skill 创建一个 SkillTo.ai 图像节点插件，改写光影和氛围，同时保留原始提示词意图。
+```
+
+### Claude Code
+
+把 `skillto-image-node-plugin/` 复制或链接到 Claude Code 配置的本地 skills 或 agents 目录。也可以把本仓库放在创作者项目中，并让 Claude Code 读取入口文件：
+
+```text
+读取 skillto-image-node-plugin/SKILL.md，然后在 ./work/my-plugin 中构建一个 SkillTo.ai 图像节点插件。
+```
+
+生成后，使用本仓库脚本验证和打包：
+
+```bash
+node skillto-image-node-plugin/scripts/validate-plugin.mjs ./work/my-plugin
+node skillto-image-node-plugin/scripts/pack-plugin.mjs ./work/my-plugin
+```
+
+### OpenClaw
+
+把 `skillto-image-node-plugin/` 复制或链接到 OpenClaw 配置的本地 skills 或 agents 目录。入口文件是：
+
+```text
+skillto-image-node-plugin/SKILL.md
+```
+
+使用时可以直接提示：
+
+```text
+以 skillto-image-node-plugin/SKILL.md 作为约束，创建一个可用于生产发布的 SkillTo.ai 图像节点插件，并在打包前完成验证。
+```
+
+## 创作者 API Key
+
+生产上传需要 SkillTo.ai 创作者 API Key。
+
+1. 登录 [https://www.skillto.ai](https://www.skillto.ai)。
+2. 打开 [Creator API Keys](https://www.skillto.ai/account/creator/api-keys)。
+3. 创建新的 API Key。
+4. 为 API Key 授予以下权限：
+   - `skill_app:read`
+   - `skill_app:write`
+5. 复制 API Key。它应该以 `skap_` 开头。
+6. 上传前把它保存到环境变量：
+
+```bash
+export SKILLTO_CREATOR_API_KEY="skap_xxx"
+```
+
+PowerShell：
+
+```powershell
+$env:SKILLTO_CREATOR_API_KEY = "skap_xxx"
+```
+
+不要把创作者 API Key 提交到 git、插件文件、截图、日志或 issue 评论中。
 
 ## 创作者可以做什么
 

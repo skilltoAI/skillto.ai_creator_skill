@@ -1,6 +1,14 @@
+<p align="center">
+  <a href="https://www.skillto.ai">
+    <img src="docs/assets/skillto-logo.png" alt="SkillTo.ai" width="220">
+  </a>
+</p>
+
 # SkillTo.ai Creator Skill
 
 Public agent skill tooling for building SkillTo.ai creator image-node plugins.
+
+Official website: [https://www.skillto.ai](https://www.skillto.ai)
 
 中文文档: [README.zh-CN.md](README.zh-CN.md)
 
@@ -31,6 +39,76 @@ skillto-image-node-plugin/SKILL.md
 ```
 
 For Codex, Claude Code, OpenClaw, or another agent runtime, use the equivalent local skill directory supported by that tool, or point the tool at this folder as a local skill capability.
+
+### Codex
+
+Copy the skill folder into your Codex local skills directory:
+
+```powershell
+$skillsDir = Join-Path $env:USERPROFILE ".codex\skills"
+New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
+Copy-Item -Recurse -Force .\skillto-image-node-plugin (Join-Path $skillsDir "skillto-image-node-plugin")
+```
+
+Use it by asking Codex to load the skill before creating or editing a plugin:
+
+```text
+Use the skillto-image-node-plugin skill to create a SkillTo.ai image node plugin that rewrites lighting and atmosphere while preserving the original prompt intent.
+```
+
+### Claude Code
+
+Copy or link `skillto-image-node-plugin/` into the local skills or agents directory configured for Claude Code, or keep this repository in the creator project and ask Claude Code to read the entry file:
+
+```text
+Read skillto-image-node-plugin/SKILL.md, then build a SkillTo.ai image node plugin in ./work/my-plugin.
+```
+
+After generation, run the validation and packaging scripts from this repository:
+
+```bash
+node skillto-image-node-plugin/scripts/validate-plugin.mjs ./work/my-plugin
+node skillto-image-node-plugin/scripts/pack-plugin.mjs ./work/my-plugin
+```
+
+### OpenClaw
+
+Copy or link `skillto-image-node-plugin/` into the local skills or agents directory configured for OpenClaw. The instruction entry is:
+
+```text
+skillto-image-node-plugin/SKILL.md
+```
+
+Use it with a direct prompt such as:
+
+```text
+Use skillto-image-node-plugin/SKILL.md as the contract and create a production-ready SkillTo.ai image node plugin. Validate it before packaging.
+```
+
+## Creator API Key
+
+Production upload requires a SkillTo.ai creator API key.
+
+1. Sign in at [https://www.skillto.ai](https://www.skillto.ai).
+2. Open [Creator API Keys](https://www.skillto.ai/account/creator/api-keys).
+3. Create a new API key.
+4. Grant the key these scopes:
+   - `skill_app:read`
+   - `skill_app:write`
+5. Copy the key once. It should start with `skap_`.
+6. Store it in an environment variable before upload:
+
+```bash
+export SKILLTO_CREATOR_API_KEY="skap_xxx"
+```
+
+PowerShell:
+
+```powershell
+$env:SKILLTO_CREATOR_API_KEY = "skap_xxx"
+```
+
+Never commit creator API keys to git, plugin files, screenshots, logs, or issue comments.
 
 ## What Creators Can Do
 
