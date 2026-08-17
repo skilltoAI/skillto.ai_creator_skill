@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https: http:; media-src 'self' blob: https: http:; font-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>__PLUGIN_NAME_EN__ Reasoning</title>
+    <link rel="stylesheet" href="./reasoning.css" />
+  </head>
+  <body>
+    <main class="reasoning-shell">
+      <section class="reasoning-graph" aria-label="reasoning graph">
+        <article class="stage">
+          <span class="stage__icon">▤</span>
+          <div>
+            <h2 data-i18n-zh="用户输入分析" data-i18n-en="Input Analysis">用户输入分析</h2>
+            <ul id="inputSummary"></ul>
+          </div>
+        </article>
+        <div class="arrow"></div>
+        <article class="stage">
+          <span class="stage__icon">ⓘ</span>
+          <div>
+            <h2 data-i18n-zh="分镜剧情设定" data-i18n-en="Shot Setting">分镜剧情设定</h2>
+            <ul id="storySetting"></ul>
+          </div>
+        </article>
+        <div class="arrow"></div>
+        <article class="stage">
+          <span class="stage__icon">♟</span>
+          <div>
+            <h2 data-i18n-zh="人物情绪推理" data-i18n-en="Emotion Reasoning">人物情绪推理</h2>
+            <ul id="emotionAnalysis"></ul>
+          </div>
+        </article>
+        <div class="arrow"></div>
+        <article class="logic">
+          <header>
+            <span class="stage__icon">♢</span>
+            <h2 data-i18n-zh="Prompt 逻辑（多分支）" data-i18n-en="Prompt Logic Branches">Prompt 逻辑（多分支）</h2>
+          </header>
+          <div class="branch-rail"></div>
+          <div id="logicBranches" class="branches"></div>
+        </article>
+      </section>
+
+      <aside class="result-panel">
+        <img class="result-panel__logo" src="../assets/logo.svg" alt="SkillTo.ai" />
+        <section>
+          <p class="kicker" data-i18n-zh="从本次提示词提取" data-i18n-en="Extracted from this prompt">从本次提示词提取</p>
+          <h2 data-i18n-zh="本次采用的标签" data-i18n-en="Tags Used">本次采用的标签</h2>
+          <div id="tagList" class="tags"></div>
+        </section>
+        <section>
+          <p class="kicker" data-i18n-zh="用户修改后的提示词" data-i18n-en="User Modified Prompt">用户修改后的提示词</p>
+          <div id="modifiedPrompt" class="modified-prompt"></div>
+        </section>
+      </aside>
+    </main>
+    <script src="../shared/sdk.js"></script>
+    <script src="./reasoning.js"></script>
+  </body>
+</html>

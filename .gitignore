@@ -1,0 +1,10 @@
+**/work/
+**/examples/
+**/dist/
+**/.skillto-preview/
+**/.skillto/
+README.server-local-debug.md
+README.*.private.md
+node_modules/
+.DS_Store
+*.log

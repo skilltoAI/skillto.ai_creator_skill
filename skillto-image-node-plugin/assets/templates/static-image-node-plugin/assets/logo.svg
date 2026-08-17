@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="64" viewBox="0 0 220 64" role="img" aria-label="SkillTo.ai">
+  <rect width="220" height="64" rx="16" fill="#101614"/>
+  <text x="18" y="42" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="800">skill</text>
+  <text x="85" y="42" fill="#37FC30" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="900">to</text>
+  <text x="126" y="42" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="800">.ai</text>
+  <path d="M109 15l29 0-13 34-10-10-15 13-7-8 15-13-9-8z" fill="#37FC30" opacity=".92"/>
+</svg>

@@ -1,0 +1,66 @@
+{
+  "manifest_version": "2026-08-sandbox-js",
+  "skill_app_uuid": "creator.skill-lighting-reasoning",
+  "name": {
+    "zh-CN": "Skill推理布光",
+    "en-US": "Skill Lighting Reasoning"
+  },
+  "version": "0.1.0",
+  "publisher": {
+    "type": "creator",
+    "name": "SkillTo.ai"
+  },
+  "runtime": {
+    "min_sdk_version": "0.2.0"
+  },
+  "ui_slots": {
+    "panel": {
+      "entry": "panel/index.html",
+      "width": 680,
+      "height": 760
+    },
+    "reasoning": {
+      "entry": "reasoning/index.html",
+      "width": 1260,
+      "height": 820
+    }
+  },
+  "permissions": [
+    "read.current_prompt",
+    "read.connected_assets.image",
+    "read.connected_assets.video",
+    "read.connected_assets.audio",
+    "read.connected_text",
+    "llm.responses.sync",
+    "write.prompt_patch",
+    "ui.reasoning_modal"
+  ],
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "modified_prompt": {
+        "type": "string"
+      },
+      "metadata": {
+        "type": "object",
+        "properties": {
+          "reasoning": {
+            "type": "object"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "required": [
+      "modified_prompt"
+    ]
+  }
+}

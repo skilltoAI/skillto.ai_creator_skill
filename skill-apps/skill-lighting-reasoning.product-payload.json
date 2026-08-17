@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "submit_review": true,
+  "confirm_review_fee": true,
+  "procurement_agreement_accepted": true,
+  "procurement_contract_accepted": true,
+  "product": {
+    "title": "Skill推理布光",
+    "subtitle": "根据分镜场景、人物情绪和参考图反推合理的情绪布光与场景氛围",
+    "cover_image_url": "",
+    "header_video_url": "",
+    "review_content_type": "image_skill"
+  },
+  "revision": {
+    "title": "Skill推理布光",
+    "subtitle": "分析图片节点输入、参考图和剧情分镜，生成优化后的提示词与布光推理图",
+    "description_html": "<h2>Skill推理布光</h2><p>这是一个面向 SkillTo.ai 标准图片节点的图片节点插件。插件会读取当前提示词、人物参考、场景参考和连接素材，推理用户要表达的分镜场景、人物情绪、心理变化和场景氛围。</p><p>当用户没有完整指定取景时，插件会基于场景参考图反推具体场景，例如巨大多层大厅、窗边、地下室、外部院落、天井、门廊或柱廊等，并据此选择更合理的情绪布光、经典打光手法和调色方向。</p><p>最终输出统一为用户修改后的 modified_prompt，并提供四层以上的信息图式布光推理图，包含用户输入总结、参考图场景反推、分镜剧情设定、人物情绪心理和多分支布光逻辑。</p>"
+  }
+}

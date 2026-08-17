@@ -1,0 +1,8 @@
+interface:
+  display_name: "SkillTo Image Node Plugin"
+  short_description: "Build SkillTo.ai image node plugins"
+  brand_color: "#37FC30"
+  default_prompt: "Use $skillto-image-node-plugin to create a sandboxed SkillTo.ai image node plugin."
+
+policy:
+  allow_implicit_invocation: true

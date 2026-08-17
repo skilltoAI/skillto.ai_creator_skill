@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https: http:; media-src 'self' blob: https: http:; font-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>__PLUGIN_NAME_EN__ Panel</title>
+    <link rel="stylesheet" href="./panel.css" />
+  </head>
+  <body>
+    <main class="plugin-panel">
+      <header class="plugin-panel__header">
+        <img src="../assets/logo.svg" alt="SkillTo.ai" />
+        <button id="openReasoning" class="icon-button" type="button" title="查看推理图" aria-label="查看推理图">⌘</button>
+      </header>
+
+      <button id="runButton" class="run-button" type="button">
+        <span class="run-button__spark">✣</span>
+        <span data-i18n-zh="Skill推理生成" data-i18n-en="Run Skill Reasoning">Skill推理生成</span>
+      </button>
+
+      <section class="plugin-card">
+        <p class="plugin-card__kicker" data-i18n-zh="当前提示词" data-i18n-en="Current prompt">当前提示词</p>
+        <div id="promptPreview" class="prompt-preview"></div>
+      </section>
+
+      <section class="plugin-card">
+        <p class="plugin-card__kicker" data-i18n-zh="连接素材" data-i18n-en="Connected assets">连接素材</p>
+        <div id="assetList" class="asset-list"></div>
+      </section>
+
+      <section class="plugin-card">
+        <p class="plugin-card__kicker" data-i18n-zh="草稿输出" data-i18n-en="Draft output">草稿输出</p>
+        <textarea id="draftEditor" class="draft-editor" spellcheck="false"></textarea>
+        <button id="commitButton" class="commit-button" type="button" data-i18n-zh="提交用户修改后的 prompt" data-i18n-en="Commit edited prompt">提交用户修改后的 prompt</button>
+      </section>
+
+      <p id="status" class="status" role="status"></p>
+    </main>
+    <script src="../shared/sdk.js"></script>
+    <script src="./panel.js"></script>
+  </body>
+</html>

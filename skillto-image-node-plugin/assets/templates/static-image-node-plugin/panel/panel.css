@@ -1,0 +1,186 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  background: #151816;
+  color: #f8fff9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #151816;
+}
+
+.plugin-panel {
+  display: grid;
+  gap: 12px;
+  min-height: 760px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 100% 0%, rgb(55 252 48 / 16%), transparent 30%),
+    linear-gradient(145deg, #19211c 0%, #141715 58%, #111412 100%);
+}
+
+.plugin-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plugin-panel__header img {
+  width: 136px;
+  height: auto;
+}
+
+.icon-button,
+.commit-button,
+.run-button {
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 10px;
+  color: #f8fff9;
+  font: inherit;
+}
+
+.icon-button {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  background: rgb(255 255 255 / 6%);
+}
+
+.run-button {
+  position: relative;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  border-color: rgb(255 255 255 / 78%);
+  background: linear-gradient(90deg, #effff2 0%, #94e7b3 52%, #22c55e 100%);
+  color: #0c2214;
+  font-weight: 900;
+}
+
+.run-button::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgb(255 255 255 / 68%) 42%, transparent 72%);
+  content: "";
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.run-button:hover::after {
+  animation: shimmer 1.2s ease;
+}
+
+.run-button.is-loading .run-button__spark {
+  animation: spin 0.8s linear infinite;
+}
+
+.plugin-card {
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 4%);
+  padding: 14px;
+}
+
+.plugin-card__kicker {
+  margin: 0 0 8px;
+  color: #73de99;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.prompt-preview {
+  max-height: 90px;
+  overflow: auto;
+  color: rgb(255 255 255 / 76%);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.asset-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.asset-chip {
+  display: inline-flex;
+  max-width: 180px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgb(104 223 148 / 28%);
+  border-radius: 999px;
+  background: rgb(34 197 94 / 10%);
+  padding: 5px 9px;
+  color: rgb(255 255 255 / 78%);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.asset-chip img {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.draft-editor {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 10px;
+  background: rgb(0 0 0 / 20%);
+  color: #f8fff9;
+  font: 700 13px/1.65 Inter, "Microsoft YaHei", sans-serif;
+  outline: none;
+  padding: 10px;
+}
+
+.commit-button {
+  width: 100%;
+  min-height: 36px;
+  margin-top: 10px;
+  background: rgb(55 252 48 / 12%);
+  color: #bbf7d0;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.status {
+  min-height: 18px;
+  margin: 0;
+  color: #bbf7d0;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+}
+
+@keyframes shimmer {
+  to {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
