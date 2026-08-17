@@ -1,8 +1,4 @@
-<p align="center">
-  <a href="https://www.skillto.ai">
-    <img src="docs/assets/skillto-logo.png" alt="SkillTo.ai" width="220">
-  </a>
-</p>
+[![SkillTo.ai](docs/assets/skillto-logo.png)](https://www.skillto.ai)
 
 # SkillTo.ai Creator Skill
 
