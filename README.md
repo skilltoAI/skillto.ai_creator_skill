@@ -1,4 +1,4 @@
-[![SkillTo.ai](docs/assets/skillto-logo.png)](https://www.skillto.ai)
+[![SkillTo.ai](docs/assets/skillto-logo.jpg)](https://www.skillto.ai)
 
 # SkillTo.ai Creator Skill
 
