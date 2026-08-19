@@ -17,6 +17,34 @@ assets/
 
 The plugin must be static HTML/CSS/JS. A build system is optional, but the packaged output must contain static files only.
 
+## Host Shell Boundary
+
+The platform owns all UI outside the sandbox iframe. A plugin package must not implement or restyle the platform shell:
+
+- creator avatar and creator-name dropdown
+- SkillTo.ai logo in the top identity chain
+- plugin product dropdown and purchase status
+- host reasoning-entry icon
+- modal close, resize, or shell controls
+
+The shell identity chain is rendered by SkillTo.ai as:
+
+```text
+creator avatar + creator name + SkillTo.ai logo + plugin product name
+```
+
+`panel/index.html` starts inside the plugin iframe below that shell. The host header consumes its own space in normal layout and never overlays the iframe. `reasoning/index.html` starts inside the host reasoning modal body; the modal title bar remains platform-owned.
+
+```text
++----------------------------------------------------------------+
+| creator avatar + creator name | SkillTo.ai | product | graph   |  platform host
++----------------------------------------------------------------+
+|                                                                |
+|                     panel/index.html iframe                   |  creator package
+|                                                                |
++----------------------------------------------------------------+
+```
+
 ## Manifest
 
 Use `manifest_version: "2026-08-sandbox-js"`.
@@ -37,6 +65,15 @@ Required `ui_slots`:
   }
 }
 ```
+
+Slot size limits are strict. A package is invalid if its manifest or explicit page CSS/HTML/JS dimensions exceed:
+
+| Slot | Maximum iframe size |
+|---|---:|
+| `panel` | `680 x 760` |
+| `reasoning` | `1260 x 820` |
+
+Panels and reasoning pages must use responsive sizing, `width: 100%`, `height: 100%`, and internal scrolling for overflow. Do not set fixed, min, max, inline, or scripted pixel dimensions above the slot size.
 
 Required output schema:
 
@@ -84,7 +121,7 @@ Core calls:
 
 ```js
 const context = await SkillTo.context.get();
-const prompt = await SkillTo.inputs.getPrompt();
+const { rawPrompt, sections } = await SkillTo.inputs.getPrompt();
 const { assets } = await SkillTo.inputs.listConnectedAssets({ types: ["image", "video", "audio", "text"] });
 const preview = await SkillTo.assets.getPreview(assets[0].handle);
 const response = await SkillTo.llm.responsesSync({ prompt, materials: assets.map((asset) => asset.handle) });
@@ -94,6 +131,8 @@ await SkillTo.prompt.commit({ modified_prompt: userEditedPrompt, metadata });
 await SkillTo.state.set("reasoning_result", metadata);
 await SkillTo.ui.openReasoning();
 ```
+
+`shared/sdk.d.ts` in the generated package is the canonical SDK contract. Use it for TypeScript types and verify package code against it; narrative examples must not add fields or call forms that are absent from that declaration.
 
 ## Output Rules
 

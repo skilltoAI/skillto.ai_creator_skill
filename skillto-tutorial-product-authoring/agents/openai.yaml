@@ -1,0 +1,9 @@
+name: skillto-tutorial-product-authoring
+version: 0.1.0
+display_name: SkillTo Tutorial Product Authoring
+description: Write and manage SkillTo.ai tutorial products with Docmost-ready articles and creator-agent CRUD boundaries.
+default_prompt: >-
+  Use $skillto-tutorial-product-authoring to draft and maintain a SkillTo.ai
+  tutorial product: plan the article space, generate Docmost-ready writing,
+  define imagegen infographic prompts, and call creator-agent CRUD APIs without
+  exposing technical fields to human creators.

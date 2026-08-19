@@ -6,5 +6,8 @@
 README.server-local-debug.md
 README.*.private.md
 node_modules/
+.env
+.env.*
+!.env.example
 .DS_Store
 *.log

@@ -9,6 +9,14 @@ description: Create, adapt, validate, preview, package, and upload SkillTo.ai im
 
 Build **SkillTo.ai image node plugins** as standalone static packages. They do not require the SkillTo.ai source repo and must run only inside the platform sandbox iframe.
 
+The host platform owns the plugin shell around the iframe. Third-party plugins must not recreate or style the platform header, creator selector, product selector, SkillTo.ai logo, purchase state dropdown, close button, or reasoning-entry icon. The host header is a continuous identity chain:
+
+```text
+creator avatar + creator name + SkillTo.ai logo + plugin product name
+```
+
+Creators design only the iframe content below that shell. The left-aligned host header occupies its own layout row and never overlays the iframe; the generated package must not reserve or recreate that row.
+
 Every plugin must provide:
 
 - `skillto.skill.json`
@@ -59,6 +67,9 @@ Never expose Provider keys, direct model endpoints, browser login state, host DO
 - Use `SkillTo.prompt.setDraft({ text, metadata })` for generated drafts and `SkillTo.prompt.commit({ modified_prompt, metadata })` when the user confirms or edits.
 - Use `SkillTo.state.set("reasoning_result", metadata)` and `SkillTo.host.onUpdate(...)` to share explanation data between panel and reasoning pages.
 - Reasoning pages may render structure graphs, thumbnails, tags, and explanation text, but must not change the host modal size or close the editor.
+- Do not place SkillTo.ai logos, creator avatar/name selectors, plugin product dropdowns, purchase-state UI, close buttons, or standard reasoning-entry icons inside `panel/index.html`. Those are host shell controls.
+- Do not exceed the platform iframe slot sizes. `panel` must fit within `680 x 760`; `reasoning` must fit within `1260 x 820`. Use `height: 100%`, `min-height: 0`, and internal scrolling instead of larger fixed dimensions.
+- Treat the generated package's `shared/sdk.d.ts` as the canonical SDK signature. It exposes only `context`, `inputs`, `assets`, `llm`, `prompt`, `state`, `ui.openReasoning`, and `host`; do not invent host or browser APIs.
 - CSS should match SkillTo.ai dark visual language: restrained panels, green accents, compact typography, clear loading states, no translucent disabled whole-page overlays.
 - When upload/deploy is requested, send `skill_product_key` to the platform. If the user asks to create or update the product listing, use `product_payload` only for optional product fields and review submission flags; the ordinary human creator UI remains unchanged.
 

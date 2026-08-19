@@ -1,4 +1,5 @@
 :root {
+  height: 100%;
   color-scheme: dark;
   font-family: Inter, "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
   background: #151816;
@@ -10,46 +11,30 @@
 }
 
 body {
+  height: 100%;
   margin: 0;
+  overflow: hidden;
   background: #151816;
 }
 
 .plugin-panel {
   display: grid;
+  height: 100%;
+  min-height: 0;
   gap: 12px;
-  min-height: 760px;
-  padding: 18px;
+  overflow-y: auto;
+  padding: 16px 18px 18px;
   background:
     radial-gradient(circle at 100% 0%, rgb(55 252 48 / 16%), transparent 30%),
     linear-gradient(145deg, #19211c 0%, #141715 58%, #111412 100%);
 }
 
-.plugin-panel__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.plugin-panel__header img {
-  width: 136px;
-  height: auto;
-}
-
-.icon-button,
 .commit-button,
 .run-button {
   border: 1px solid rgb(255 255 255 / 14%);
   border-radius: 10px;
   color: #f8fff9;
   font: inherit;
-}
-
-.icon-button {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  background: rgb(255 255 255 / 6%);
 }
 
 .run-button {

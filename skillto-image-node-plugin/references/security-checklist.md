@@ -49,3 +49,11 @@ Reject zip entries or source files with:
 - Prompt writes must go through `SkillTo.prompt.setDraft()` or `SkillTo.prompt.commit()`.
 - `metadata` must remain sidecar data.
 - Do not include tracking pixels, analytics beacons, or third-party scripts.
+
+## Host Size Safety
+
+- `panel` must not exceed `680 x 760`.
+- `reasoning` must not exceed `1260 x 820`.
+- Reject manifest slot sizes above those limits.
+- Reject explicit CSS, HTML attributes, or JS style dimensions above the slot size.
+- Use internal scrolling for overflow instead of enlarging the iframe.

@@ -9,6 +9,10 @@ if (!rootArg) usage("Missing plugin directory.");
 const root = resolve(process.cwd(), rootArg);
 const errors = [];
 const warnings = [];
+const PLATFORM_SLOT_LIMITS = {
+  panel: { width: 680, height: 760 },
+  reasoning: { width: 1260, height: 820 }
+};
 
 await validateRoot(root);
 if (errors.length) {
@@ -30,6 +34,8 @@ async function validateRoot(rootPath) {
   if (manifest.manifest_version !== "2026-08-sandbox-js") fail("manifest_version must be 2026-08-sandbox-js");
   if (manifest.ui_slots?.panel?.entry !== "panel/index.html") fail("ui_slots.panel.entry must be panel/index.html");
   if (manifest.ui_slots?.reasoning?.entry !== "reasoning/index.html") fail("ui_slots.reasoning.entry must be reasoning/index.html");
+  validateManifestSlotSize(manifest, "panel");
+  validateManifestSlotSize(manifest, "reasoning");
   if (!manifest.output_schema?.required?.includes("modified_prompt")) fail("output_schema must require modified_prompt");
   if (!manifest.permissions?.includes("llm.responses.sync")) fail("permissions must include llm.responses.sync");
   if (!manifest.permissions?.includes("write.prompt_patch")) fail("permissions must include write.prompt_patch");
@@ -41,6 +47,19 @@ async function validateRoot(rootPath) {
   await validateFiles(rootPath, rootPath);
   await validateHTML(resolve(rootPath, "panel/index.html"));
   await validateHTML(resolve(rootPath, "reasoning/index.html"));
+  await validateSlotContentDimensions(rootPath, manifest, "panel");
+  await validateSlotContentDimensions(rootPath, manifest, "reasoning");
+}
+
+function validateManifestSlotSize(manifest, slotName) {
+  const slot = manifest.ui_slots?.[slotName] || {};
+  const limits = PLATFORM_SLOT_LIMITS[slotName];
+  const width = Number(slot.width);
+  const height = Number(slot.height);
+  if (!Number.isFinite(width) || width <= 0) fail(`ui_slots.${slotName}.width must be a positive number`);
+  if (!Number.isFinite(height) || height <= 0) fail(`ui_slots.${slotName}.height must be a positive number`);
+  if (width > limits.width) fail(`ui_slots.${slotName}.width ${width}px exceeds platform limit ${limits.width}px`);
+  if (height > limits.height) fail(`ui_slots.${slotName}.height ${height}px exceeds platform limit ${limits.height}px`);
 }
 
 async function validateFiles(rootPath, dir) {
@@ -69,6 +88,65 @@ async function validateHTML(path) {
   if (!content.includes("Content-Security-Policy")) fail(`${path} is missing CSP`);
   if (!/connect-src\s+'none'/.test(content)) fail(`${path} CSP must include connect-src 'none'`);
   if (!content.includes("../shared/sdk.js")) fail(`${path} must load ../shared/sdk.js`);
+}
+
+async function validateSlotContentDimensions(rootPath, manifest, slotName) {
+  const slot = manifest.ui_slots?.[slotName] || {};
+  const width = Number(slot.width);
+  const height = Number(slot.height);
+  if (!Number.isFinite(width) || !Number.isFinite(height)) return;
+  await validateSlotDirectoryDimensions(rootPath, resolve(rootPath, slotName), slotName, { width, height });
+}
+
+async function validateSlotDirectoryDimensions(rootPath, dir, slotName, slotSize) {
+  if (!existsSync(dir)) return;
+  for (const entry of await readdir(dir)) {
+    const fullPath = resolve(dir, entry);
+    const info = await stat(fullPath);
+    if (info.isDirectory()) {
+      await validateSlotDirectoryDimensions(rootPath, fullPath, slotName, slotSize);
+      continue;
+    }
+    if (!info.isFile() || !isTextFile(entry)) continue;
+    const relative = fullPath.slice(rootPath.length + 1).split(sep).join("/");
+    const content = await readFile(fullPath, "utf8");
+    validateDimensionDeclarations(content, relative, slotName, slotSize);
+  }
+}
+
+function validateDimensionDeclarations(content, relative, slotName, slotSize) {
+  const cssDeclarationPattern = /(?:^|[;{\s])((?:min-|max-)?(?:width|height))\s*:\s*([^;{}]+)/gi;
+  for (const match of content.matchAll(cssDeclarationPattern)) {
+    const property = match[1].toLowerCase();
+    const value = match[2];
+    validatePixelValues(property, value, relative, slotName, slotSize);
+  }
+
+  const htmlAttributePattern = /\b(width|height)\s*=\s*["']?(\d+(?:\.\d+)?)["']?/gi;
+  for (const match of content.matchAll(htmlAttributePattern)) {
+    validatePixelValue(match[1].toLowerCase(), Number(match[2]), relative, slotName, slotSize);
+  }
+
+  const jsStylePattern = /\b(width|height|minWidth|minHeight|maxWidth|maxHeight)\s*=\s*["'`](\d+(?:\.\d+)?)px["'`]/g;
+  for (const match of content.matchAll(jsStylePattern)) {
+    validatePixelValue(match[1].replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`), Number(match[2]), relative, slotName, slotSize);
+  }
+}
+
+function validatePixelValues(property, value, relative, slotName, slotSize) {
+  const pixelPattern = /(-?\d+(?:\.\d+)?)px/gi;
+  for (const match of value.matchAll(pixelPattern)) {
+    validatePixelValue(property, Number(match[1]), relative, slotName, slotSize);
+  }
+}
+
+function validatePixelValue(property, value, relative, slotName, slotSize) {
+  if (!Number.isFinite(value) || value <= 0) return;
+  const axis = property.toLowerCase().includes("height") ? "height" : "width";
+  const limit = slotSize[axis];
+  if (value > limit) {
+    fail(`${relative} declares ${property}: ${value}px, exceeding ${slotName} iframe ${axis} ${limit}px`);
+  }
 }
 
 function validateText(content, relative) {

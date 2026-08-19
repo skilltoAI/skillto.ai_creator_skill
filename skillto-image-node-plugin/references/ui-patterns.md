@@ -6,9 +6,16 @@ Use this reference when designing plugin panel and reasoning pages.
 
 The panel page appears in the image/video generation node editor. It should feel like a compact production tool, not a landing page.
 
+The platform renders the outer shell and top identity chain. Do not recreate it inside the iframe:
+
+```text
+creator avatar + creator name + SkillTo.ai logo + plugin product name
+```
+
+The platform shell also owns the creator dropdown, plugin product dropdown, purchase state, reasoning icon, and close button. The platform header is left-aligned and keeps the creator avatar/name, brand, product selector, and reasoning entry in one continuous row outside the iframe. The plugin panel starts below that shell and should not include a SkillTo.ai logo header or reserve header height in its CSS.
+
 Recommended structure:
 
-- Header with creator or plugin name, current mode, and a reasoning icon button.
 - One prominent run button for the plugin's core reasoning action.
 - Optional compact preset buttons.
 - Preview/detail area explaining the selected preset or generated result.
@@ -28,10 +35,13 @@ Avoid:
 - Large marketing hero blocks.
 - Buttons that shift layout on hover/loading.
 - Hidden dependency on host CSS.
+- Duplicating platform controls such as logo, creator dropdown, product dropdown, purchase state, reasoning icon, or close button.
 
 ## Reasoning Page
 
 The reasoning page appears inside a fixed host modal. The plugin controls only iframe content.
+
+The modal title bar, SkillTo.ai logo, close button, and fixed modal size belong to the host. The reasoning iframe should render only the explanation/graph content.
 
 Recommended structure:
 

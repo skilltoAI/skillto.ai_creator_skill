@@ -11,7 +11,6 @@ const els = {
   assetList: document.getElementById("assetList"),
   commitButton: document.getElementById("commitButton"),
   draftEditor: document.getElementById("draftEditor"),
-  openReasoning: document.getElementById("openReasoning"),
   promptPreview: document.getElementById("promptPreview"),
   runButton: document.getElementById("runButton"),
   status: document.getElementById("status")
@@ -25,7 +24,6 @@ async function init() {
   await refreshInputs();
   els.runButton.addEventListener("click", runReasoning);
   els.commitButton.addEventListener("click", commitDraft);
-  els.openReasoning.addEventListener("click", () => SkillTo.ui.openReasoning().catch((error) => setStatus(error.message, true)));
 }
 
 async function refreshInputs() {
